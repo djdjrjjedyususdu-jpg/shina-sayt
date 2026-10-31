@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ShinaUz — Avto shinalar onlayn do‘koni</title>
+<style>
+:root{--bg:#f3f7f6;--card:#fff;--tx:#10201e;--mut:#5b6f6b;--ac:#0f766e;--ac2:#f59e0b;--bd:#d9e4e2;--hd:#0f766e;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c1416;--card:#142022;--tx:#e8f1ef;--mut:#92a8a4;--ac:#2dd4bf;--bd:#243537;--hd:#10272a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0c1416;--card:#142022;--tx:#e8f1ef;--mut:#92a8a4;--ac:#2dd4bf;--bd:#243537;--hd:#10272a;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.5;transition:background .3s,color .3s}
+button{font:inherit;cursor:pointer}
+header{background:var(--hd);color:#fff;padding:12px 16px;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+header b{font-size:20px}
+.hr{display:flex;gap:8px;align-items:center}
+.hb{background:rgba(255,255,255,.18);color:#fff;border:0;border-radius:20px;padding:7px 12px;font-weight:600}
+.cartbtn{background:var(--ac2);color:#1b1300;border:0;border-radius:20px;padding:7px 14px;font-weight:700}
+.strip{max-width:1000px;margin:12px auto 0;padding:0 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.box{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:10px 14px}
+.box small{color:var(--mut);display:block}
+.big{font-size:26px;font-weight:700;color:var(--ac);font-variant-numeric:tabular-nums}
+.hero{padding:24px 16px 12px;text-align:center;max-width:760px;margin:auto}
+.hero h1{margin:0 0 8px;font-size:26px}
+.hero p{margin:0;color:var(--mut)}
+.bar{max-width:1000px;margin:0 auto;padding:8px 16px;display:flex;gap:8px;flex-wrap:wrap}
+.bar input,.bar select,#panel input,#panel select{flex:1 1 140px;padding:10px;border:1px solid var(--bd);border-radius:8px;background:var(--card);color:var(--tx);font:inherit}
+.grid{max-width:1000px;margin:auto;padding:0 16px 24px;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:6px;transition:transform .15s}
+.card:hover{transform:translateY(-3px)}
+.tire{height:90px;display:flex;align-items:center;justify-content:center}
+.tag{font-size:12px;padding:2px 10px;border-radius:10px;background:var(--bd);align-self:flex-start}
+.card h3{margin:0;font-size:16px}
+.card small{color:var(--mut)}
+.price{font-weight:700;font-size:18px;color:var(--ac)}
+.usd{font-size:13px;color:var(--mut);margin-top:-6px}
+.add{background:var(--ac);color:#fff;border:0;border-radius:8px;padding:9px;margin-top:auto;font-weight:600}
+:root[data-theme="dark"] .add{color:#062623}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .add{color:#062623}}
+section.info{max-width:1000px;margin:auto;padding:8px 16px 20px}
+section.info h2{font-size:20px}
+.regs,.pay{display:flex;flex-wrap:wrap;gap:8px}
+.regs span{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:4px 12px;font-size:14px}
+.pay span{background:var(--card);border:2px solid var(--bd);border-radius:10px;padding:8px 16px;font-weight:700}
+.pay .h{border-color:#1b9c85}.pay .u{border-color:#2563eb}.pay .v{border-color:#f59e0b}.pay .n{border-color:#16a34a}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:12px 0}
+.cal{max-width:320px}
+.cal table{width:100%;text-align:center;border-collapse:collapse;font-size:14px}
+.cal td,.cal th{padding:5px 0}
+.cal th{color:var(--mut);font-weight:600}
+.cal .t{background:var(--ac);color:#fff;border-radius:50%;font-weight:700}
+footer{text-align:center;color:var(--mut);padding:20px 16px;font-size:14px}
+footer a{color:var(--ac)}
+#drawer{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:10;justify-content:flex-end}
+#drawer.on{display:flex}
+#panel{background:var(--card);width:min(400px,100%);height:100%;padding:16px;overflow:auto;display:flex;flex-direction:column;gap:10px}
+#panel input,#panel select{flex:none;width:100%}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:1px solid var(--bd);padding:8px 0;font-size:14px}
+.qty button{width:26px;height:26px;border-radius:6px;border:1px solid var(--bd);background:var(--bg);color:var(--tx)}
+.send{background:#229ed9;color:#fff;border:0;border-radius:8px;padding:12px;font-weight:600}
+.close{align-self:flex-end;background:none;border:0;color:var(--tx);font-size:24px}
+.chip{background:var(--card);border:1px solid var(--ac);color:var(--tx);border-radius:16px;padding:6px 14px;font-weight:600}
+.chip.on{background:var(--ac);color:#fff}
+.cars{max-width:1000px;margin:0 auto;padding:4px 16px 12px}
+.cars .box{display:flex;flex-direction:column;gap:8px}
+.cars .sel{display:flex;gap:8px;flex-wrap:wrap}
+.cars select{flex:1 1 150px;padding:10px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);font:inherit}
+#chips{display:flex;gap:8px;flex-wrap:wrap}
+.types{display:flex;gap:6px;flex-wrap:wrap;font-size:13px;color:var(--mut)}
+.types span{border:1px dashed var(--bd);border-radius:10px;padding:3px 10px}
+.banner{position:relative;width:calc(100% - 32px);max-width:968px;margin:14px auto 8px;border-radius:18px;overflow:hidden;min-height:280px;display:flex;align-items:center;color:#fff;background:#0b4a93;box-shadow:0 8px 24px rgba(6,32,63,.25)}
+.banner svg{position:absolute;inset:0;width:100%;height:100%}
+.bt{position:relative;margin:18px;padding:20px 22px;max-width:480px;background:rgba(5,24,50,.62);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.18);border-radius:16px}
+.bt h1{margin:0 0 8px;font-size:clamp(24px,4.6vw,34px);line-height:1.15;letter-spacing:-.5px}
+.bt h1 span{color:#ffc83d}
+.bt p{margin:0 0 12px;color:#e3eefb;font-size:15px}
+.tags span{display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.35);border-radius:14px;padding:2px 11px;margin:0 6px 6px 0;font-size:13px;font-weight:600}
+.cta{display:inline-block;background:#ffc83d;color:#1b1300;font-weight:700;padding:9px 18px;border-radius:10px;text-decoration:none}
+</style>
+</head>
+<body>
+<header>
+<b>ShinaUz</b>
+<div class="hr">
+<a href="tel:+998916004090" style="color:#fff;text-decoration:none;font-size:14px">📞 +998 91 600 40 90</a>
+<button class="hb" id="tbtn" onclick="toggleTheme()" aria-label="Kun/tun rejimi">🌙</button>
+<button class="cartbtn" onclick="openCart()">Savatcha (<span id="cnt">0</span>)</button>
+</div>
+</header>
+
+<div class="strip">
+<div class="box"><small id="dt">Sana</small><span class="big" id="clock">--:--:--</span></div>
+<div class="box"><small>Dollar kursi (MB)</small><span class="big" id="usdv">…</span><small id="usdn"></small></div>
+</div>
+
+<div class="banner">
+<svg viewBox="0 0 1000 300" preserveAspectRatio="xMaxYMax slice" aria-hidden="true">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2=".4"><stop offset="0" stop-color="#061a38"/><stop offset=".45" stop-color="#0b4a93"/><stop offset=".8" stop-color="#4fa9ea"/><stop offset="1" stop-color="#a9dcff"/></linearGradient>
+<radialGradient id="glow"><stop offset="0" stop-color="#fff" stop-opacity=".8"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+<linearGradient id="chr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".45" stop-color="#98a1ae"/><stop offset=".7" stop-color="#e9edf2"/><stop offset="1" stop-color="#6f7885"/></linearGradient>
+<radialGradient id="tr" cx=".4" cy=".35" r=".8"><stop offset="0" stop-color="#3a3e46"/><stop offset=".7" stop-color="#15171b"/><stop offset="1" stop-color="#050506"/></radialGradient>
+<radialGradient id="bd"><stop offset="0" stop-color="#6b727d"/><stop offset="1" stop-color="#2a2e35"/></radialGradient>
+<linearGradient id="rd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b3038"/><stop offset="1" stop-color="#14171b"/></linearGradient>
+<filter id="bl"><feGaussianBlur stdDeviation="6"/></filter>
+<path id="sk" d="M-5 -22 L5 -22 L9 -66 L-9 -66Z" fill="url(#chr)" stroke="#6f7885" stroke-width=".5"/>
+<g id="wl">
+<circle r="100" fill="url(#tr)"/>
+<circle r="93" fill="none" stroke="#000" stroke-opacity=".5" stroke-width="2"/>
+<circle r="86" fill="none" stroke="#2c3037" stroke-width="1.5"/>
+<path d="M-70 -62 A94 94 0 0 1 20 -92" fill="none" stroke="#fff" stroke-opacity=".16" stroke-width="5" stroke-linecap="round"/>
+<circle r="77" fill="#0e0f12"/>
+<circle r="74" fill="url(#chr)"/>
+<circle r="68" fill="#15181d"/>
+<circle r="52" fill="url(#bd)"/>
+<circle r="46" fill="none" stroke="#1d2026" stroke-width="3" stroke-dasharray="4 5"/>
+<path d="M18 -50 A53 53 0 0 1 50 -18 L40 -12 A42 42 0 0 0 14 -40Z" fill="#d6221f"/>
+<use href="#sk"/><use href="#sk" transform="rotate(36)"/><use href="#sk" transform="rotate(72)"/><use href="#sk" transform="rotate(108)"/><use href="#sk" transform="rotate(144)"/><use href="#sk" transform="rotate(180)"/><use href="#sk" transform="rotate(216)"/><use href="#sk" transform="rotate(252)"/><use href="#sk" transform="rotate(288)"/><use href="#sk" transform="rotate(324)"/>
+<circle r="25" fill="url(#chr)"/><circle r="18" fill="#1b1f25"/><circle r="9" fill="url(#chr)"/>
+<g fill="#aab2be"><circle r="2.4" transform="rotate(0) translate(0 -13)"/><circle r="2.4" transform="rotate(72) translate(0 -13)"/><circle r="2.4" transform="rotate(144) translate(0 -13)"/><circle r="2.4" transform="rotate(216) translate(0 -13)"/><circle r="2.4" transform="rotate(288) translate(0 -13)"/></g>
+<path d="M-62 -40 A74 74 0 0 1 -22 -70" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="3" stroke-linecap="round"/>
+</g>
+</defs>
+<rect width="1000" height="300" fill="url(#bg)"/>
+<circle cx="900" cy="40" r="120" fill="url(#glow)"/>
+<g fill="#fff" opacity=".28"><ellipse cx="600" cy="70" rx="90" ry="20"/><ellipse cx="660" cy="55" rx="60" ry="22"/><ellipse cx="930" cy="120" rx="70" ry="16"/><ellipse cx="520" cy="130" rx="60" ry="12"/></g>
+<rect y="262" width="1000" height="38" fill="url(#rd)"/><rect y="262" width="1000" height="3" fill="#5a626e"/>
+<path d="M0 283 H1000" stroke="#f5c542" stroke-width="3" stroke-dasharray="34 24" opacity=".85"/>
+<ellipse cx="640" cy="266" rx="70" ry="7" fill="#000" opacity=".5" filter="url(#bl)"/>
+<ellipse cx="810" cy="266" rx="120" ry="9" fill="#000" opacity=".55" filter="url(#bl)"/>
+<use href="#wl" transform="translate(640 187) scale(.75)"/>
+<use href="#wl" transform="translate(810 142) scale(1.2)"/>
+</svg>
+<div class="bt">
+<h1>Shina va <span>ehtiyot qismlar</span></h1>
+<p>Butun O‘zbekiston bo‘ylab yetkazib beramiz. Buyurtma bering, biz siz bilan bog‘lanamiz.</p>
+<div class="tags"><span>Yozgi</span><span>Qishki</span><span>Universal</span><span>Disklar</span><span>Ehtiyot qismlar</span></div>
+<a class="cta" href="#grid">Katalogga o‘tish</a>
+</div>
+</div>
+
+<div class="bar">
+<input id="q" placeholder="Qidirish (brend yoki o‘lcham)" oninput="render()">
+<select id="type" onchange="render()"><option value="">Barcha turlar</option><option>Yozgi</option><option>Qishki</option><option>Universal</option></select>
+<select id="rad" onchange="render()"><option value="">Barcha radiuslar</option><option>R12</option><option>R13</option><option>R14</option><option>R15</option><option>R16</option><option>R17</option><option>R18</option><option>R19</option><option>R20</option><option>R21</option><option>R22</option><option>R23</option><option>R24</option></select>
+</div>
+
+<div class="cars"><div class="box"><b>🚗 Avtomobilingizga mos shinani toping</b>
+<div class="sel"><select id="cb" onchange="carBrand()"></select><select id="cm" onchange="carModel()"><option value="">Avval markani tanlang</option></select></div>
+<div id="chips"></div>
+<div class="types"><span>Yengil: R13–R16</span><span>Krossover/SUV: R16–R19</span><span>Mikroavtobus/furgon: R15C–R16C</span><span>Yuk mashinasi: R17.5–R22.5</span></div>
+<small style="color:var(--mut)">O‘lchamlar odatiy (zavod) variantlar. Aniq o‘lchamni texnik pasportdan yoki eski shinadagi yozuvdan tekshiring. Ro‘yxatda yo‘q mashina bo‘lsa, o‘lchamni qidiruvga yozing. * belgili modellar/markalar (Chazor, Yuan Up, Li Auto, Dongfeng) bo‘yicha o‘lchamlar tasdiqlanmagan yoki taxminiy: komplektatsiyaga qarab farq qiladi, buyurtmadan oldin aniqlanadi.</small></div></div>
+<div class="grid" id="grid"></div>
+
+<section class="info">
+<h2>To‘lov usullari</h2>
+<div class="pay"><span class="h">Humo</span><span class="u">Uzcard</span><span class="v">Visa</span><span class="n">Naqd pul</span></div>
+
+<h2>Yetkazib berish</h2>
+<div class="regs" id="regs"></div>
+<div class="steps">
+<div class="box"><b>1. Tanlang</b><br>Katalogdan shinani tanlab savatchaga qo‘shing.</div>
+<div class="box"><b>2. Buyurtma</b><br>Ism, viloyat va to‘lov usulini tanlab Telegram orqali yuboring.</div>
+<div class="box"><b>3. Qabul qiling</b><br>Yetkazib beramiz. To‘lov kelishuv bo‘yicha.</div>
+</div>
+
+<h2>Kalendar</h2>
+<div class="box cal"><b id="mon"></b><table id="cal"></table></div>
+<p style="color:var(--mut);font-size:14px">Narxlar namuna sifatida kiritilgan. Aniq narx va muddat buyurtma vaqtida tasdiqlanadi.</p>
+</section>
+
+<footer>
+<div>📍 Manzil: Andijon shahri, Andijon viloyati (R86F+H6Q) · <a href="https://www.google.com/maps/search/?api=1&query=R86F%2BH6Q%20Andijan" target="_blank" rel="noopener">Xaritada ko‘rish</a></div>
+<div>📞 Telefon: <a href="tel:+998916004090">+998 91 600 40 90</a></div>
+<div>© ShinaUz · Telegram: <span id="tgshow"></span></div>
+</footer>
+
+<div id="drawer" onclick="if(event.target===this)closeCart()">
+<div id="panel">
+<button class="close" onclick="closeCart()">×</button>
+<h2 style="margin:0">Savatcha</h2>
+<div id="items"></div>
+<b id="total"></b>
+<input id="name" placeholder="Ismingiz">
+<input id="phone" placeholder="Telefon raqamingiz" inputmode="tel">
+<select id="region"></select>
+<input id="addr" placeholder="Manzil (shahar, ko‘cha)">
+<select id="paym"><option>Naqd pul</option><option>Humo</option><option>Uzcard</option><option>Visa</option></select>
+<input id="hp" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+<button class="send" id="sendbtn" onclick="sendOrder()">Buyurtma berish</button>
+<div id="ost" style="font-size:14px"></div>
+</div>
+</div>
+
+<script>
+var TG="Avtoshina_Bozor";
+var USD=12000,usdLive=false;
+var P=[
+["Michelin Primacy 4","Yozgi","205/55 R16",1250000],
+["Michelin Primacy 4","Yozgi","215/60 R16",1380000],
+["Bridgestone Turanza","Yozgi","195/65 R15",980000],
+["Hankook Ventus Prime","Yozgi","225/45 R17",1450000],
+["Nokian Hakkapeliitta","Qishki","205/55 R16",1520000],
+["Continental IceContact","Qishki","215/60 R17",1690000],
+["Kumho WinterCraft","Qishki","195/65 R15",890000],
+["Cordiant All Terrain","Universal","235/65 R17",1720000],
+["Kapsen AllSeason","Universal","205/60 R16",830000],
+["Goodyear Vector 4S","Universal","225/50 R17",1560000],
+["Pirelli Cinturato","Yozgi","185/65 R14",720000],
+["Lassa Competus","Universal","255/55 R18",1980000]
+];
+var R=["Toshkent","Toshkent viloyati","Samarqand","Buxoro","Farg‘ona","Andijon","Namangan","Qashqadaryo","Surxondaryo","Jizzax","Sirdaryo","Navoiy","Xorazm","Qoraqalpog‘iston"];
+var WD=["Yakshanba","Dushanba","Seshanba","Chorshanba","Payshanba","Juma","Shanba"];
+var MN=["Yanvar","Fevral","Mart","Aprel","May","Iyun","Iyul","Avgust","Sentabr","Oktabr","Noyabr","Dekabr"];
+var cart={};
+function f(n){return Math.round(n).toLocaleString("ru-RU")+" so‘m"}
+function icon(t){var c=t==="Qishki"?"#3b82c4":t==="Yozgi"?"#f59e0b":"#16a34a";return '<svg width="84" height="84" viewBox="0 0 84 84"><circle cx="42" cy="42" r="38" fill="#2b2f36"/><circle cx="42" cy="42" r="26" fill="none" stroke="#444a54" stroke-width="3" stroke-dasharray="6 5"/><circle cx="42" cy="42" r="14" fill="#9aa3b2"/><circle cx="42" cy="42" r="5" fill="'+c+'"/></svg>'}
+function render(){
+var q=document.getElementById("q").value.toLowerCase(),t=document.getElementById("type").value,r=document.getElementById("rad").value,h="";
+P.forEach(function(p,i){
+if(t&&p[1]!==t)return;if(r&&p[2].indexOf(r)<0)return;
+if(q&&(p[0]+" "+p[2]).toLowerCase().indexOf(q)<0)return;
+h+='<div class="card"><div class="tire">'+icon(p[1])+'</div><span class="tag">'+p[1]+'</span><h3>'+p[0]+'</h3><small>'+p[2]+'</small><div class="price">'+f(p[3])+'</div><div class="usd">≈ $'+Math.round(p[3]/USD)+'</div><button class="add" onclick="add('+i+')">Savatchaga</button></div>'});
+document.getElementById("grid").innerHTML=h||'<p style="grid-column:1/-1;text-align:center;color:var(--mut)">Bu o‘lcham hozircha katalogda yo‘q. Buyurtma asosida keltirib beramiz: <a style="color:var(--ac)" target="_blank" rel="noopener" href="https://t.me/'+TG+'?text='+encodeURIComponent('Menga shina kerak: '+(q||'o‘lchamni aytaman'))+'">Telegramda so‘rang</a></p>'}
+function add(i){cart[i]=(cart[i]||0)+1;upd()}
+function chg(i,d){cart[i]+=d;if(cart[i]<=0)delete cart[i];upd()}
+function upd(){
+var n=0,s=0,h="";
+for(var i in cart){n+=cart[i];s+=cart[i]*P[i][3];h+='<div class="row"><span>'+P[i][0]+"<br><small>"+P[i][2]+" · "+f(P[i][3])+'</small></span><span class="qty"><button onclick="chg('+i+',-1)">−</button> '+cart[i]+' <button onclick="chg('+i+',1)">+</button></span></div>'}
+document.getElementById("cnt").textContent=n;
+document.getElementById("items").innerHTML=h||'<p style="color:var(--mut)">Savatcha bo‘sh</p>';
+document.getElementById("total").textContent="Jami: "+f(s)+" (≈ $"+Math.round(s/USD)+")"}
+function openCart(){document.getElementById("drawer").classList.add("on")}
+function closeCart(){document.getElementById("drawer").classList.remove("on")}
+function sendOrder(){
+var ks=Object.keys(cart);
+if(!ks.length){alert("Savatcha bo‘sh");return}
+var nm=document.getElementById("name").value.trim(),ph=document.getElementById("phone").value.trim();
+if(!nm||!ph){alert("Ism va telefonni kiriting");return}
+var items=[],s=0;
+ks.forEach(function(i){items.push({n:P[i][0],s:P[i][2],q:cart[i],p:P[i][3]});s+=cart[i]*P[i][3]});
+var d={name:nm,phone:ph,region:document.getElementById("region").value,addr:document.getElementById("addr").value,pay:document.getElementById("paym").value,items:items,hp:document.getElementById("hp").value};
+var btn=document.getElementById("sendbtn"),st=document.getElementById("ost");
+btn.disabled=true;st.textContent="Yuborilmoqda…";
+fetch("/.netlify/functions/order",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(d)}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(){
+cart={};upd();btn.disabled=false;st.textContent="✅ Buyurtmangiz qabul qilindi! Tez orada siz bilan bog‘lanamiz."
+}).catch(function(){
+btn.disabled=false;
+var m="Yangi buyurtma:\n";items.forEach(function(x){m+="• "+x.n+" "+x.s+" × "+x.q+"\n"});
+m+="Jami: "+f(s)+"\nTo‘lov: "+d.pay+"\nIsm: "+nm+"\nTel: "+ph+"\nViloyat: "+d.region+"\nManzil: "+d.addr;
+st.innerHTML='Avtomatik yuborib bo‘lmadi. <a style="color:var(--ac)" target="_blank" rel="noopener" href="https://t.me/'+TG+'?text='+encodeURIComponent(m)+'">Telegram orqali yuborish</a>'})}
+/* Kun/tun rejimi */
+function setTheme(t){document.documentElement.setAttribute("data-theme",t);document.getElementById("tbtn").textContent=t==="dark"?"☀️":"🌙";try{localStorage.setItem("th",t)}catch(e){}}
+function toggleTheme(){setTheme(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark")}
+(function(){var t=null;try{t=localStorage.getItem("th")}catch(e){}
+if(!t){var h=new Date().getHours();t=(window.matchMedia&&matchMedia("(prefers-color-scheme:dark)").matches)||h>=19||h<6?"dark":"light"}
+setTheme(t)})();
+/* Soat va kalendar */
+var lastDay=-1;
+function p2(n){return n<10?"0"+n:n}
+function tick(){
+var d=new Date();
+document.getElementById("clock").textContent=p2(d.getHours())+":"+p2(d.getMinutes())+":"+p2(d.getSeconds());
+document.getElementById("dt").textContent=WD[d.getDay()]+", "+d.getDate()+" "+MN[d.getMonth()]+" "+d.getFullYear();
+if(d.getDate()!==lastDay){lastDay=d.getDate();drawCal(d)}}
+function drawCal(d){
+var y=d.getFullYear(),m=d.getMonth(),first=(new Date(y,m,1).getDay()+6)%7,days=new Date(y,m+1,0).getDate();
+var h="<tr>"+["Du","Se","Ch","Pa","Ju","Sh","Ya"].map(function(x){return"<th>"+x+"</th>"}).join("")+"</tr><tr>";
+for(var i=0;i<first;i++)h+="<td></td>";
+for(var k=1;k<=days;k++){if((first+k-1)%7===0&&k>1)h+="</tr><tr>";h+='<td'+(k===d.getDate()?' class="t"':'')+'>'+k+'</td>'}
+document.getElementById("cal").innerHTML=h+"</tr>";
+document.getElementById("mon").textContent=MN[m]+" "+y}
+/* Dollar kursi (Markaziy bank) */
+function showUsd(){
+document.getElementById("usdv").textContent=Math.round(USD).toLocaleString("ru-RU")+" so‘m";
+document.getElementById("usdn").textContent=usdLive?"1 USD · jonli kurs":"1 USD · taxminiy kurs";
+render();upd()}
+function loadUsd(){
+fetch("/.netlify/functions/rate").then(function(r){return r.json()}).then(function(a){var v=parseFloat(a.rate);if(v>1000){USD=v;usdLive=true;showUsd()}else throw 0}).catch(loadUsd2)}
+function loadUsd2(){
+fetch("https://cbu.uz/uz/arkhiv-kursov-valyut/json/USD/").then(function(r){return r.json()}).then(function(a){
+var v=parseFloat(a[0].Rate);if(v>1000){USD=v;usdLive=true}showUsd()}).catch(function(){showUsd()})}
+var C={"Chevrolet":[["Nexia 3",["185/60 R15"]],["Cobalt",["185/60 R15","195/55 R16"]],["Gentra",["185/60 R15","205/55 R16"]],["Lacetti",["195/60 R15","205/55 R16"]],["Onix",["185/65 R15","195/55 R16"]],["Tracker",["215/60 R16","215/55 R17"]],["Malibu",["215/55 R17","235/45 R18"]],["Captiva",["235/60 R17","235/55 R18"]],["Equinox",["225/65 R17","235/55 R18"]]],
+"Daewoo":[["Nexia (eski)",["175/70 R13","185/60 R14"]]],
+"Kia":[["Rio",["185/65 R15","195/55 R16"]],["K5",["215/55 R17","235/45 R18"]],["Seltos",["215/60 R16","215/55 R17"]],["Sportage",["215/65 R16","235/60 R17"]],["Sorento",["235/65 R17","235/60 R18"]]],
+"Hyundai":[["Accent",["185/65 R15","195/55 R16"]],["Elantra",["205/55 R16","225/45 R17"]],["Sonata",["215/60 R16","235/45 R18"]],["Creta",["205/65 R16","215/60 R17"]],["Tucson",["225/60 R17","235/55 R18"]]],
+"Toyota":[["Corolla",["195/65 R15","205/55 R16"]],["Camry",["215/60 R16","235/45 R18"]],["RAV4",["225/65 R17","235/55 R18"]],["Land Cruiser Prado",["265/65 R17","265/60 R18"]]],
+"BYD":[["Dolphin",["195/60 R16","205/50 R17"]],["Qin Plus",["205/55 R16","215/55 R17"]],["Atto 3 (Yuan Plus)",["215/60 R17","215/55 R18"]],["Song Plus",["215/60 R17","235/50 R19"]],["Seal",["235/50 R18","235/45 R19"]],["Han",["225/55 R17","245/45 R19"]],["Chazor *",[]],["Yuan Up *",[]]],
+"Chery":[["Tiggo 4 Pro",["215/65 R16","215/60 R17"]],["Tiggo 7 Pro",["215/65 R17","235/55 R18"]],["Tiggo 8 Pro",["235/55 R18","235/50 R19"]],["Arrizo 6 Pro",["205/55 R16","225/45 R17"]],["Omoda C5",["215/60 R17","235/50 R18"]]],
+"Li Auto *":[["L7",["255/50 R20","255/45 R21"]],["L8",["255/50 R20","265/45 R21"]],["L9",["255/50 R20","265/45 R21"]]],
+"Dongfeng *":[["Aeolus Shine",["205/55 R16","215/50 R17"]],["Glory 580",["215/60 R17"]],["Forthing T5",["215/60 R17","225/55 R18"]]],
+"Lada":[["Granta",["175/70 R13","185/60 R14"]],["Vesta",["185/65 R15","205/50 R17"]]]};
+function initCars(){document.getElementById("cb").innerHTML='<option value="">Marka tanlang</option>'+Object.keys(C).map(function(b){return'<option>'+b+'</option>'}).join('')}
+function carBrand(){var b=document.getElementById("cb").value;document.getElementById("chips").innerHTML="";document.getElementById("cm").innerHTML=b?'<option value="">Modelni tanlang</option>'+C[b].map(function(m,i){return'<option value="'+i+'">'+m[0]+'</option>'}).join(''):'<option value="">Avval markani tanlang</option>'}
+function carModel(){var b=document.getElementById("cb").value,i=document.getElementById("cm").value;if(b===""||i==="")return;document.getElementById("chips").innerHTML=!C[b][i][1].length?'<a style="color:var(--ac)" target="_blank" rel="noopener" href="https://t.me/'+TG+'?text='+encodeURIComponent('Menga '+b+' '+C[b][i][0]+' uchun shina kerak')+'">Bu model uchun o‘lcham hali tasdiqlanmagan. Telegramda so‘rang</a>':C[b][i][1].map(function(s){return'<button class="chip" onclick="pickSize(this,\''+s+'\')">'+s+'</button>'}).join('')}
+function pickSize(el,s){document.getElementById("q").value=s;var c=document.querySelectorAll(".chip");for(var k=0;k<c.length;k++)c[k].classList.remove("on");el.classList.add("on");render();document.getElementById("grid").scrollIntoView({behavior:"smooth"})}
+initCars();
+document.getElementById("regs").innerHTML=R.map(function(x){return "<span>"+x+"</span>"}).join("");
+document.getElementById("region").innerHTML=R.map(function(x){return "<option>"+x+"</option>"}).join("");
+document.getElementById("tgshow").textContent="@"+TG;
+render();upd();tick();setInterval(tick,1000);showUsd();loadUsd();setInterval(loadUsd,1800000);
+</script>
+</body>
+</html>
